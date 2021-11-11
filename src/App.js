@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
+import authService from "./services/auth-service";
 
 import ProjectList from './components/projects/ProjectList';
 import Navbar from './components/navbar/Navbar';
@@ -22,6 +23,31 @@ class App extends Component {
       user: userObj
     });
   };
+
+
+  fetchUser = () => {
+    if (this.state.user === null) {
+      authService
+        .loggedin()
+        .then(data => {
+          this.setState({
+            user: data,
+            isLoggedIn: true
+          });
+        })
+        .catch(err => {
+          this.setState({
+            user: null,
+            isLoggedIn: false
+          });
+        });
+    }
+  };
+
+
+  componentDidMount() {
+    this.fetchUser();
+  }
 
 
   render() {
