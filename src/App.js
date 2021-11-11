@@ -3,6 +3,7 @@ import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import authService from "./services/auth-service";
 
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import ProjectList from './components/projects/ProjectList';
 import Navbar from './components/navbar/Navbar';
 import ProjectDetails from './components/projects/ProjectDetails';
@@ -57,9 +58,24 @@ class App extends Component {
         <Switch>
           <Route exact path="/" render={props => <Login {...props} getUser={this.getTheUser} />} />
           <Route exact path="/signup" component={Signup} />
-          <Route exact path="/projects" component={ProjectList} />
-          <Route exact path="/projects/:id" component={ProjectDetails} />
-          <Route exact path="/projects/:id/tasks/:taskId" component={TaskDetails} />
+          <ProtectedRoute
+            user={this.state.user}
+            exact
+            path="/projects/:id"
+            component={ProjectDetails}
+          />
+          <ProtectedRoute
+            user={this.state.user}
+            exact
+            path="/projects"
+            component={ProjectList}
+          />
+          <ProtectedRoute
+            user={this.state.user}
+            exact
+            path="/projects/:id/tasks/:taskId"
+            component={TaskDetails}
+          />
         </Switch>
       </div>
     );
