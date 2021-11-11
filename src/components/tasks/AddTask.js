@@ -6,7 +6,7 @@ class AddTask extends Component {
    
   handleFormSubmit = (event) => {
     event.preventDefault();
-    
+
     const title = this.state.title;
     const description = this.state.description;
     const projectID = this.props.theProject._id; // <== we need to know to which project the created task belong, so we need to get its 'id'
@@ -15,7 +15,7 @@ class AddTask extends Component {
     
     // { title, description, projectID } => this is 'req.body' that will be received on the server side in this route, 
     // so the names have to match
-    axios.post("http://localhost:5000/api/tasks", { title, description, projectID })
+    axios.post("http://localhost:5000/api/tasks", { title, description, projectID },  { withCredentials: true })
     .then( () => {
           // after submitting the form, retrieve project one more time so the new task is displayed as well 
           //              |
